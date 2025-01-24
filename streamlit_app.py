@@ -22,13 +22,13 @@ def login_screen():
 
 def main():
     st.set_page_config(page_title="FAISS RAG App", layout="wide")
-    st.title("FAISS-based RAG Demo")
-    st.sidebar.write("Navigation")
+    st.title("Ask me Anything!")
+    # st.sidebar.write("Switch between User and Admin")
 
     if "is_admin" not in st.session_state:
         st.session_state["is_admin"] = False
 
-    mode = st.sidebar.radio("Select Mode", ["Admin", "User"])
+    mode = st.sidebar.radio("Switch between User and Admin", ["Admin", "User"])
 
     if mode == "Admin":
         if not st.session_state["is_admin"]:
