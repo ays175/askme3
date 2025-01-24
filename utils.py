@@ -1,6 +1,6 @@
 # utils.py
 import os
-from dotenv import load_dotenv
+import streamlit as st
 import PyPDF2
 from docx import Document as DocxDocument
 import tiktoken
@@ -12,11 +12,10 @@ from langchain.docstore.document import Document
 from langchain_openai.chat_models import ChatOpenAI
 import faiss
 
-# Load environment variables from .env
-load_dotenv()
 
-# Retrieve the OpenAI API key from the environment variables
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# Retrieve secrets from the Streamlit Cloud panel
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
 def load_txt(file) -> str:
     """Load a .txt file (from BytesIO) and return its text."""
@@ -64,7 +63,7 @@ def chunk_and_embed(documents):
         raise ValueError("No valid chunks were generated from the documents!")
 
     embedding_model = OpenAIEmbeddings(
-        openai_api_key=OPENAI_API_KEY
+        openai_api_key=st.secrets["OPENAI_API_KEY"]
     )
 
     embeddings = embedding_model.embed_documents(doc_chunks)
@@ -127,7 +126,7 @@ def load_llm(llm_name: str):
         model_name = "gpt-3.5-turbo"
 
     llm = ChatOpenAI(
-        openai_api_key=OPENAI_API_KEY,
+        openai_api_key=st.secrets["OPENAI_API_KEY"],
         model=model_name,
         temperature=0.7
     )
